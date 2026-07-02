@@ -1,5 +1,5 @@
 {
-  "_comment": "Curated status_notes for CVEs reported by multiple issues. build-feed.py uses these for the merged (per-CVE) statement; status, justification, product, and subcomponents are still derived from files/ and must agree across sources. Single-source CVEs need no entry here.",
+  "_comment": "Curated status_notes for CVEs reported by multiple issues. build-feed uses these for the merged (per-CVE) statement; status, justification, product, and subcomponents are still derived from files/ and must agree across sources. Single-source CVEs need no entry here.",
   "CVE-2025-68121": {
     "status_notes": "CVE-2025-68121 (Go stdlib crypto/tls — unexpected TLS session resumption) affects kubectl binaries built with an unpatched Go. Fixed in Go 1.24.13 / 1.25.7 / 1.26.0-rc.3; a maintainer confirmed the Go bump was already merged into supported Kubernetes branches and pending the next release when these issues closed. Reported independently in #137195, #137228, and #140091. [sources: https://github.com/kubernetes/kubernetes/issues/137195, https://github.com/kubernetes/kubernetes/issues/137228, https://github.com/kubernetes/kubernetes/issues/140091]"
   },

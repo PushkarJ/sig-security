@@ -1,8 +1,9 @@
 # vex-feed generator
 
-`build-feed.py` assembles the combined feed
+`build-feed` assembles the combined feed
 (`../kubernetes-vex-feed-draft.openvex.json`) from the per-issue OpenVEX
-documents in `../files/`.
+documents in `../files/`. All commands below are Go and are run from the
+`vex-feed/` directory (one level up from here).
 
 ## Model
 
@@ -31,28 +32,39 @@ documents in `../files/`.
 ## Usage
 
 ```console
-$ python3 hack/build-feed.py          # regenerate the feed
-$ python3 hack/build-feed.py --check  # CI: non-zero exit if the feed is stale
+$ go run ./hack/build-feed          # regenerate the feed
+$ go run ./hack/build-feed --check  # CI: non-zero exit if the feed is stale
 ```
 
 ## Typical workflow
 
 1. Add a per-issue document under `files/` — either by hand, or scaffold one
-   with `python3 hack/new-issue.py <issue-number>` (fetches the issue, extracts
+   with `go run ./hack/new-issue <issue-number>` (fetches the issue, extracts
    its CVE IDs, and writes a stub with status `under_investigation` and TODO
    notes for you to complete).
 2. If the new/changed CVE is reported by more than one issue, add or update its
    entry in `merge-overrides.json`.
-3. Run `python3 hack/build-feed.py`.
+3. Run `go run ./hack/build-feed`.
 4. Commit the changed `files/…`, `merge-overrides.json`, and the regenerated
    `kubernetes-vex-feed-draft.openvex.json` together.
 
 ## Files
 
-- `build-feed.py` — the generator (builds the combined feed from `files/`).
-- `new-issue.py` — scaffolds a `files/issue-<n>.openvex.json` stub from a GitHub
-  issue (fetches it, extracts CVE IDs); status/justification/notes are left as
-  TODO for a human to complete. Refuses to overwrite an existing file.
+- `openvex/` — shared library: the OpenVEX `Document`/`Statement` Go types
+  and JSON load/save helpers used by both tools below.
+- `build-feed/` — the generator (builds the combined feed from `files/`).
+- `new-issue/` — scaffolds a `files/issue-<n>.openvex.json` stub from a GitHub
+  issue (fetches it via `gh`, extracts CVE IDs); status/justification/notes are
+  left as TODO for a human to complete. Refuses to overwrite an existing file.
 - `merge-overrides.json` — curated merged notes for CVEs reported by multiple
   issues; `status` / `justification` / `product` are still derived from
   `files/` and are not overridable here.
+
+## Development
+
+Run from `vex-feed/`:
+
+```console
+$ go build ./...
+$ go test ./...
+```
