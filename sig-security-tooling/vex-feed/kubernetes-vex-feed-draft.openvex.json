@@ -2,7 +2,7 @@
   "@context": "https://openvex.dev/ns/v0.2.0",
   "@id": "https://raw.githubusercontent.com/kubernetes/sig-security/main/sig-security-tooling/vex-feed/kubernetes-vex-feed-draft.openvex.json",
   "author": "kubernetes maintainers",
-  "version": 1,
+  "version": 2,
   "statements": [
     {
       "vulnerability": {
@@ -18,8 +18,8 @@
           ]
         }
       ],
-      "status": "under_investigation",
-      "status_notes": "kubectl 1.36.2 ships golang.org/x/net v0.49.0 (<v0.55.0), flagged for CVE-2026-39821. The reporter explicitly did NOT confirm that kubectl reaches the vulnerable x/net/idna code path, and maintainers made no reachability ruling in-issue (directed to the security guide). Reachability of the vulnerable code in kubectl is undetermined. [ref: https://github.com/kubernetes/kubernetes/issues/140092]"
+      "status": "fixed",
+      "status_notes": "CVE-2026-39821 affects golang.org/x/net before v0.55.0 (x/net/idna); the scanner flagged kubectl 1.36.2, which shipped golang.org/x/net v0.49.0. Fixed upstream: Kubernetes now vendors golang.org/x/net >= v0.55.0 (currently v0.55.1-0.20260602153038-42abb857022c), so the vulnerable version is no longer present. Related dependency bumps: https://github.com/kubernetes/kubernetes/pull/138561, https://github.com/kubernetes/kubernetes/pull/139420. [ref: https://github.com/kubernetes/kubernetes/issues/140092]"
     },
     {
       "vulnerability": {
@@ -364,5 +364,5 @@
       "status_notes": "Go stdlib CVEs in kubectl v1.33.5. A maintainer confirmed Go was already updated to 1.24.9 on release-1.33 but not yet released; fix merged, release pending at close. [ref: https://github.com/kubernetes/kubernetes/issues/135083]"
     }
   ],
-  "timestamp": "2026-07-01T21:42:47Z"
+  "timestamp": "2026-07-02T23:38:47Z"
 }
